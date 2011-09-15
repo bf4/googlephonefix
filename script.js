@@ -26,7 +26,7 @@ function main() {
         hdr.appendChild(btn);
 
         // initialize the global contact service
-        contactsService = new google.gdata.contacts.ContactsService('splitbrain.org-phonefix-1.0');
+        contactsService = new google.gdata.contacts.ContactsService('bf4-phonefix-1.0');
 
         // show the init screen
         startGUI();
@@ -237,6 +237,16 @@ function applyChanges() {
         }
     }
 }
+function trim11 (str) {
+  str = str.replace(/^\s+/, '');
+    for (var i = str.length - 1; i >= 0; i--) {
+        if (/\S/.test(str.charAt(i))) {
+          str = str.substring(0, i + 1);
+          break;
+        }
+    }
+  return str;
+}
 /**
  * Clean the given phone number
  */
@@ -247,6 +257,7 @@ function phoneClean(number) {
     number = number.replace(/^00/, '+'); // 00 is the plus sign
     number = number.replace(/^0/, prefix); // add prefix
     number = number.replace(/  +/g, ' '); // single spaces only
+    number = trim11(number) // trim space
     // see if we have area codes for that number
     var ctry = RECOUNTRYCODE.exec(number);
     if (ctry && ctry.length) {
